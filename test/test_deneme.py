@@ -1,5 +1,5 @@
 import unittest
-from deneme import Deneme
+from src.deneme import Deneme
 
 class TestDeneme(unittest.TestCase):
     def test_increment(self):
