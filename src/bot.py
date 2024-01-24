@@ -5,7 +5,7 @@ import os
 dotenv.load_dotenv()
 
 if __name__ == "__main__":
-    client = discord.Client(intents=discord.Intents.default())
+    client = discord.Client(intents=discord.Intents.all())
 
     @client.event
     async def on_ready():
