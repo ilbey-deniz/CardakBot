@@ -12,7 +12,7 @@ if __name__ == "__main__":
         print("Logged in as")
         print(client.user.name)
         print(client.user.id)
-        print("------------------")
+        print("-----------------")
 
     @client.event
     async def on_message(message):
