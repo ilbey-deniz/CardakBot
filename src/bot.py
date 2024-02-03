@@ -6,7 +6,7 @@ import os
 
 dotenv.load_dotenv()
 
-client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+client = commands.Bot(command_prefix="-", intents=discord.Intents.all())
 
 async def load_extensions():
     for filename in os.listdir("./cogs"):
