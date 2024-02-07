@@ -12,9 +12,6 @@ class Hello(commands.Cog):
         print("Hello cog is ready")
     
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx: commands.Context, error) -> None:
-        await ctx.send("There was an error with your command!")
     
 
     @commands.command(aliases=["hi"])
