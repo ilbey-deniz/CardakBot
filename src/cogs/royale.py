@@ -18,7 +18,7 @@ class Royale(commands.Cog):
         await ctx.send(error)
     
 
-    @commands.command()
+    @commands.command(aliases=["r"])
     async def royale(self, ctx, *players: discord.Member):
         
         players = list(players)
