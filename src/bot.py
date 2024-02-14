@@ -7,12 +7,16 @@ import os
 dotenv.load_dotenv()
 
 client = commands.Bot(command_prefix="-", intents=discord.Intents.all())
+cog_dir = os.path.join(os.path.dirname(__file__), "cogs")
 
 async def load_extensions():
-    for filename in os.listdir("./cogs"):
-        if filename.endswith(".py"):
-            # cut off the .py from the file name
-            await client.load_extension(f"cogs.{filename[:-3]}")
+    try:
+        for filename in os.listdir(cog_dir):
+            if filename.endswith(".py"):
+                # cut off the .py from the file name
+                await client.load_extension(f"cogs.{filename[:-3]}")
+    except Exception as e:
+        print(f"Failed to load cogs: {e}")
 
 
 async def main():
