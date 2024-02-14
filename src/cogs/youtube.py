@@ -4,6 +4,9 @@ from discord import ClientException
 import yt_dlp
 from discord.ext import commands
 from ytmusicapi import YTMusic
+from service.music.playlist import Playlist
+from service.music.song import Song
+from service.music.utils import YTMusicUtils
 import os
 
 
@@ -14,10 +17,9 @@ class YoutubeMusic(commands.Cog):
             'options': '-vn'
         }
         self.bot = bot
-        oauth = os.getenv("YTMUSIC_OAUTH")
-        self.ytmusic = YTMusic(oauth)
+        self.ytmusic_utils = YTMusicUtils()
         self.ydl = yt_dlp.YoutubeDL({'format': 'bestaudio', 'noplaylist':'True'})
-        #playlist = playlist.Playlist()
+        playlist = Playlist()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -36,11 +38,11 @@ class YoutubeMusic(commands.Cog):
             await ctx.send("You are not in a voice channel")
             return
         
-        search_results = self.ytmusic.search(query=arg, filter="songs")
-        song_video_id = search_results[0]["videoId"]
-        similar_songs = self.ytmusic.get_watch_playlist(song_video_id)
-        similar_songs = similar_songs["tracks"]
-        similar_songs = [song["videoId"] for song in similar_songs]
+        # search_results = self.ytmusic.search(query=arg, filter="songs")
+        # song_video_id = search_results[0]["videoId"]
+        # similar_songs = self.ytmusic.get_watch_playlist(song_video_id)
+        # similar_songs = similar_songs["tracks"]
+        # similar_songs = [song["videoId"] for song in similar_songs]
         #playlist.addPlaylist(similar_songs)
         
         #start a seperate thread to download the song and play it
@@ -51,8 +53,10 @@ class YoutubeMusic(commands.Cog):
 
         # voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
         # voice.play(discord.FFmpegPCMAudio("temp/" + playlist.getCurrentSong() + ".webm"))
+        
+        song = self.ytmusic_utils.getSongByQuery(arg)
 
-        video_url = "http://www.youtube.com/watch?v=" + song_video_id
+        video_url = song.url
         song_info = self.ydl.extract_info(video_url, download=False)
         song_info = self.ydl.sanitize_info(song_info)
         url = song_info['url']
