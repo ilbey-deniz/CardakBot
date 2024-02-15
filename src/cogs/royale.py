@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from service.royale_logic import RoyaleLogic
+from service.royale.royale_logic import RoyaleLogic
 
 
 class Royale(commands.Cog):

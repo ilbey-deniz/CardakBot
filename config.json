@@ -1,0 +1,54 @@
+{
+        "actions" : [
+            {
+                "name" : "punched",
+                "damage" : 1,
+                "type" : "melee"
+            },
+            {
+                "name" : "kicked",
+                "damage" : 2,
+                "type" : "melee"
+            },
+            {
+                "name" : "headbutted",
+                "damage" : 0,
+                "type" : "stun"
+            },
+            {
+                "name" : "Ground Slam",
+                "damage" : 4,
+                "type" : "aoe"
+            },
+            {
+                "name" : "Fireball",
+                "damage" : 5,
+                "type" : "ranged"
+            },
+            {
+                "name" : "Lightning Bolt",
+                "damage" : 6,
+                "type" : "ranged"
+            },
+            {
+                "name" : "Ice Beam",
+                "damage" : 7,
+                "type" : "ranged"
+            },
+            {
+                "name" : "Healed",
+                "damage" : -5,
+                "type" : "heal"
+            },
+            {
+                "name" : "Heroes Never Die",
+                "damage" : -10,
+                "type" : "special"}        
+        ],
+
+        
+
+        "player" : { 
+            "health" : 10
+        }
+}
