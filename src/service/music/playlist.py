@@ -33,6 +33,9 @@ class Playlist():
     def insert_after_current(self, song: Song) -> None:
         self._playlist.insert(1, song)
 
+    def __str__ (self) -> str:
+        return " | ".join([song.title for song in self._playlist])
+
         
         
 
