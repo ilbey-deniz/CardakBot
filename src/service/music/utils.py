@@ -78,6 +78,7 @@ class YTMusicUtils:
     
     def get_spotify_playlist(self, query) -> Playlist:
         #optimization is needed, 100 song playlist may take a while
+        #some songs may not be found, need to handle that
         playlist = Playlist()
         parsed_query = urlparse(query)
         playlist_id = parsed_query.path.split("/")[2]
@@ -85,7 +86,7 @@ class YTMusicUtils:
         for track in playlist_info["items"]:
             song_name = track["track"]["name"]
             artist = track["track"]["artists"][0]["name"]
-            search_results = self.ytmusic.search(query=song_name + " " + artist, limit=1)
+            search_results = self.ytmusic.search(query=song_name + " " + artist, filter="songs", limit=1)
             video_id =  search_results[0]["videoId"]
             song = Song(song_name, artist, video_id)
             playlist.add_song(song)
