@@ -9,7 +9,6 @@ from service.music.song import Song
 from service.music.utils import YTMusicUtils
 import os
 
-
 class YoutubeMusic(commands.Cog):
     def __init__(self, bot):
         self.ffmepg_options = {
@@ -19,7 +18,8 @@ class YoutubeMusic(commands.Cog):
         self.bot = bot
         self.ytmusic_utils = YTMusicUtils()
         self.ydl = yt_dlp.YoutubeDL({'format': 'bestaudio', 'noplaylist':'True'})
-        playlist = Playlist()
+        self.autoplay = True
+        self.playlist = Playlist()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -54,8 +54,9 @@ class YoutubeMusic(commands.Cog):
         # voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
         # voice.play(discord.FFmpegPCMAudio("temp/" + playlist.getCurrentSong() + ".webm"))
         
-        song = self.ytmusic_utils.getSongByQuery(arg)
-
+        self.playlist = self.ytmusic_utils.get_playlist_by_query(arg)
+        song = self.playlist.next_song()
+        
         video_url = song.url
         song_info = self.ydl.extract_info(video_url, download=False)
         song_info = self.ydl.sanitize_info(song_info)
@@ -74,6 +75,18 @@ class YoutubeMusic(commands.Cog):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.stop()
         await voice.disconnect()
+
+    @commands.command(name='n')
+    async def next(self, ctx):
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+        voice.stop()
+        song = self.playlist.next_song()
+        video_url = song.url
+        song_info = self.ydl.extract_info(video_url, download=False)
+        song_info = self.ydl.sanitize_info(song_info)
+        url = song_info['url']
+        voice.play(discord.FFmpegPCMAudio(url, **self.ffmepg_options))
+        await ctx.send(f"Playing {song_info['title']} - {song_info['uploader']}")
 
 async def setup(bot):
     await bot.add_cog(YoutubeMusic(bot))
